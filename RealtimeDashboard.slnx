@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="RealtimeDashboard.API/RealtimeDashboard.API.csproj" />
+  <Project Path="RealtimeDashboard.Application/RealtimeDashboard.Application.csproj" />
+  <Project Path="RealtimeDashboard.Domain/RealtimeDashboard.Domain.csproj" />
+  <Project Path="RealtimeDashboard.Infrastructure/RealtimeDashboard.Infrastructure.csproj" />
+</Solution>
