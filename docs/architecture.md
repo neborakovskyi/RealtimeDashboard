@@ -9,6 +9,7 @@ The solution follows a layered architecture with a clear separation of responsib
 - Infrastructure layer: persistence, external services, background jobs, and realtime stream delivery
 - API layer: controller endpoints and SignalR hub exposure
 - UI layer: Angular client consuming live updates
+- Test layer: automated verification of backend behavior and contracts
 
 ## Domain model
 
@@ -77,6 +78,27 @@ The infrastructure layer owns runtime concerns:
 - CORS policy for Angular
 - SignalR hub mapping at `/hubs/metrics`
 
+## Test architecture
+
+The test project is `tests/RealtimeDashboard.Tests` and references the backend projects directly.
+
+### Test layers
+
+- `Domain/MetricTests.cs` verifies entity factories, defaults, timestamps, and value updates.
+- `Application/ApplicationHandlerTests.cs` verifies MediatR handlers with mocked repositories.
+- `Infrastructure/MetricRepositoryTests.cs` verifies EF Core repository behavior with isolated in-memory databases.
+- `API/MetricsControllerTests.cs` verifies HTTP result mapping, valid categories, and invalid category handling.
+
+### Testing principles
+
+- Unit tests isolate application handlers from persistence using Moq.
+- Repository tests use EF Core InMemory to verify query and update behavior.
+- Tests assert both returned data and important collaborator calls.
+- Coverage is generated with Coverlet and inspected using ReportGenerator.
+- New behavior should include happy-path and error/branch tests.
+
+The current suite targets high coverage of implemented domain, application, persistence, and controller logic. Full 100% solution coverage additionally requires tests for startup composition, background worker branches, SignalR interactions, external AI HTTP clients, and frontend code.
+
 ## UI layer
 
 The Angular frontend in `realtime-dashboard-ui` is responsible for displaying live dashboard metrics. It expects the backend API and SignalR hub to be running locally and subscribes to metric streams for display and category-based views.
@@ -90,6 +112,7 @@ The repo also contains a root-level frontend rule file in `realtime-dashboard-ui
 - Keep infrastructure concerns separate from domain logic
 - Expose real-time updates through SignalR rather than polling the UI
 - Use abstraction for AI providers instead of hard-coding a single service
+- Treat automated tests as part of each feature's implementation
 
 ## Consequences
 
@@ -99,4 +122,5 @@ This structure makes it easier to:
 - swap AI providers without touching API behavior
 - extend the UI without forcing backend changes
 - test application flows through MediatR-based handlers
+- verify persistence without requiring a production database
 - scale the project into a more production-oriented monitoring service

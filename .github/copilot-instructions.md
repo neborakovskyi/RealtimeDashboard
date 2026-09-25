@@ -9,6 +9,7 @@ This repository is a full-stack monitoring dashboard built with ASP.NET Core, EF
 - `RealtimeDashboard.Infrastructure` contains persistence, external clients, background jobs, and hub logic.
 - `RealtimeDashboard.API` contains HTTP controllers and startup wiring.
 - `realtime-dashboard-ui` contains the Angular frontend.
+- `tests/RealtimeDashboard.Tests` contains xUnit tests for the backend.
 
 Never mix domain logic into controllers or UI code. Keep infrastructure concerns in infrastructure and HTTP specifics in the API project.
 
@@ -20,6 +21,24 @@ Never mix domain logic into controllers or UI code. Keep infrastructure concerns
 - Use DTOs to communicate between API and clients.
 - When adding AI integrations, follow the existing provider abstraction pattern based on `ILLMClient`.
 - Preserve the existing `Metric` aggregate behavior when modifying domain logic.
+
+## Testing guidance
+
+- Add or update xUnit tests for every backend behavior change.
+- Cover both successful and failure/validation paths.
+- Use Moq for application-layer repository isolation.
+- Use EF Core InMemory for repository tests; use a unique database name per test.
+- Assert important collaborator calls, cancellation flow where relevant, and returned DTO values.
+- Run `dotnet test` before considering backend work complete.
+- Generate coverage when requested or when changing critical behavior:
+
+```bash
+dotnet test tests/RealtimeDashboard.Tests/RealtimeDashboard.Tests.csproj \
+  --collect:"XPlat Code Coverage" \
+  --results-directory ./TestResults
+```
+
+Do not claim 100% coverage without checking the generated report. Startup, worker, SignalR, AI HTTP, and frontend behavior may require additional integration or component tests.
 
 ## Frontend guidance
 
@@ -34,15 +53,17 @@ Never mix domain logic into controllers or UI code. Keep infrastructure concerns
 - SignalR is a first-class pattern in this repo.
 - When changing runtime updates, consider both server push and UI subscription behavior.
 - The backend worker updates metrics periodically and pushes batches to clients.
+- Add tests for changes to message names, payload shapes, and connection behavior where practical.
 
 ## Documentation and quality
 
 - Update docs when changing architecture, workflows, or developer setup.
+- Keep `tests/README.md` and `docs/development.md` aligned with the test commands.
 - Prefer clear naming and single-responsibility components.
 - Avoid broad refactors without a reason tied to the requested task.
 
 ## Validation
 
-- Validate backend behavior with `dotnet build` and API-level sanity checks when appropriate.
-- Validate frontend changes with `npm run build` or `ng build` when relevant.
+- Validate backend behavior with `dotnet build` and `dotnet test`.
+- Validate frontend changes with `npm run test` and `npm run build` when relevant.
 - Keep changes consistent with the existing project conventions.

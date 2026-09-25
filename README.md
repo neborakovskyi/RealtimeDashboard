@@ -9,6 +9,7 @@ RealtimeDashboard is a full-stack monitoring sample that combines a .NET backend
 - Domain model: core entities and abstractions in `RealtimeDashboard.Domain`
 - Infrastructure: persistence, SignalR hub, background worker, and AI clients in `RealtimeDashboard.Infrastructure`
 - Frontend: Angular app in `realtime-dashboard-ui`
+- Tests: xUnit test project in `tests/RealtimeDashboard.Tests`
 
 ## Architecture summary
 
@@ -27,6 +28,8 @@ RealtimeDashboard is a full-stack monitoring sample that combines a .NET backend
 - `realtime-dashboard-ui`
   - Angular client subscribed to live updates via SignalR
   - Uses Angular Material and modern standalone component patterns
+- `tests/RealtimeDashboard.Tests`
+  - Covers domain behavior, application handlers, repository operations, and API controller branches
 
 ## Core capabilities
 
@@ -68,6 +71,9 @@ RealtimeDashboard/
 │   ├── package.json
 │   ├── angular.json
 │   └── README.md
+├── tests/
+│   ├── RealtimeDashboard.Tests/
+│   └── README.md
 ├── RealtimeDashboard.slnx
 ├── .gitignore
 ├── .gitattributes
@@ -96,6 +102,42 @@ npm start
 
 The Angular UI connects to `http://localhost:4200` and expects the API to be available locally.
 
+## Testing and coverage
+
+Run the complete .NET test suite from the repository root:
+
+```bash
+dotnet test
+```
+
+The xUnit suite is located in `tests/RealtimeDashboard.Tests` and currently covers:
+
+- `Metric` domain creation and value updates
+- MediatR query and command handlers
+- EF Core repository operations with an in-memory database
+- seeded metric data and category filtering
+- API controller success and validation branches
+
+Generate a Cobertura coverage file with Coverlet:
+
+```bash
+dotnet test tests/RealtimeDashboard.Tests/RealtimeDashboard.Tests.csproj \
+  --collect:"XPlat Code Coverage" \
+  --results-directory ./TestResults
+```
+
+Generate an HTML report locally:
+
+```bash
+dotnet tool install -g dotnet-reportgenerator-globaltool
+reportgenerator \
+  -reports:"TestResults/**/coverage.cobertura.xml" \
+  -targetdir:"TestResults/report" \
+  -reporttypes:Html
+```
+
+See [`tests/README.md`](tests/README.md) for the detailed testing and coverage workflow. The report is the source of truth for the current percentage; exact 100% coverage requires every executable branch, including startup, worker, SignalR, and AI-client paths, to be tested.
+
 ## Key technologies
 
 - .NET 10
@@ -106,12 +148,15 @@ The Angular UI connects to `http://localhost:4200` and expects the API to be ava
 - Angular 22
 - TypeScript
 - Angular Material
+- xUnit
+- Coverlet
 - OpenAI / Ollama client abstraction
 
 ## Documentation index
 
-- `docs/architecture.md` — architecture and project design decisions
-- `docs/development.md` — developer workflow and troubleshooting
+- `docs/architecture.md` — architecture, test boundaries, and design decisions
+- `docs/development.md` — developer workflow, testing, coverage, and troubleshooting
+- `tests/README.md` — xUnit and coverage instructions
 - `.github/copilot-instructions.md` — repo-wide AI coding guidance
 - `.github/instructions/*.instructions.md` — domain-specific instructions for backend and frontend work
 - `.github/skills/*.skill.md` — reusable solution-aware development skills
