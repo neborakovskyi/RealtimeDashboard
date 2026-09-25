@@ -3,4 +3,5 @@
   <Project Path="RealtimeDashboard.Application/RealtimeDashboard.Application.csproj" />
   <Project Path="RealtimeDashboard.Domain/RealtimeDashboard.Domain.csproj" />
   <Project Path="RealtimeDashboard.Infrastructure/RealtimeDashboard.Infrastructure.csproj" />
+  <Project Path="tests/RealtimeDashboard.Tests/RealtimeDashboard.Tests.csproj" />
 </Solution>
