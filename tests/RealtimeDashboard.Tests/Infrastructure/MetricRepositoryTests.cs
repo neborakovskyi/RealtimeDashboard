@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using RealtimeDashboard.Domain.Entities;
 using RealtimeDashboard.Infrastructure.Persistence;
+using Xunit;
 
 namespace RealtimeDashboard.Tests.Infrastructure;
 

@@ -4,6 +4,7 @@ using RealtimeDashboard.API.Controllers;
 using RealtimeDashboard.Application.DTOs;
 using RealtimeDashboard.Application.Queries;
 using RealtimeDashboard.Domain.Entities;
+using Xunit;
 
 namespace RealtimeDashboard.Tests.API;
 

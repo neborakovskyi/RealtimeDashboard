@@ -3,6 +3,7 @@ using RealtimeDashboard.Application.Commands;
 using RealtimeDashboard.Application.Queries;
 using RealtimeDashboard.Domain.Entities;
 using RealtimeDashboard.Domain.Interfaces;
+using Xunit;
 
 namespace RealtimeDashboard.Tests.Application;
 

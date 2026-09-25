@@ -1,4 +1,5 @@
 using RealtimeDashboard.Domain.Entities;
+using Xunit;
 
 namespace RealtimeDashboard.Tests.Domain;
 

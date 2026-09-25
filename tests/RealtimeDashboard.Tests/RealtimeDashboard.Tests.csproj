@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
@@ -20,11 +20,11 @@
     </PackageReference>
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\RealtimeDashboard.API\RealtimeDashboard.API.csproj" />
-    <ProjectReference Include="..\RealtimeDashboard.Application\RealtimeDashboard.Application.csproj" />
-    <ProjectReference Include="..\RealtimeDashboard.Domain\RealtimeDashboard.Domain.csproj" />
-    <ProjectReference Include="..\RealtimeDashboard.Infrastructure\RealtimeDashboard.Infrastructure.csproj" />
+  <ItemGroup>   
+    <ProjectReference Include="..\..\RealtimeDashboard.API\RealtimeDashboard.API.csproj" />
+    <ProjectReference Include="..\..\RealtimeDashboard.Application\RealtimeDashboard.Application.csproj" />
+    <ProjectReference Include="..\..\RealtimeDashboard.Domain\RealtimeDashboard.Domain.csproj" />
+    <ProjectReference Include="..\..\RealtimeDashboard.Infrastructure\RealtimeDashboard.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
